@@ -35,7 +35,7 @@ import ua.oshevchuk.heartratetestapp.R
 import ua.oshevchuk.heartratetestapp.ui.theme.RedFF
 
 @Composable
-fun GeneralScreen(modifier: Modifier = Modifier, onHistoryClicked : () -> Unit) {
+fun GeneralScreen(modifier: Modifier = Modifier, onHistoryClicked: () -> Unit) {
     GeneralScreenContent(modifier = modifier, onHistoryClicked = onHistoryClicked)
 }
 
@@ -60,7 +60,9 @@ fun GeneralScreenContent(modifier: Modifier = Modifier, onHistoryClicked: () -> 
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.clickable(onClick = onHistoryClicked).padding(vertical = 10.dp)
+                    modifier = Modifier
+                        .clickable(onClick = onHistoryClicked)
+                        .padding(vertical = 10.dp)
                 ) {
                     Text(
                         text = stringResource(id = R.string.history),
@@ -99,7 +101,9 @@ fun GeneralScreenContent(modifier: Modifier = Modifier, onHistoryClicked: () -> 
         Image(
             painter = painterResource(id = R.drawable.ic_start_recording),
             contentDescription = null,
-            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 10.dp)
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 10.dp)
         )
     }
 }

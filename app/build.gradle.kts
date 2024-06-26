@@ -72,7 +72,6 @@ dependencies {
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.material)
-
     implementation(libs.lottie.compose)
 
     testImplementation(libs.junit)
