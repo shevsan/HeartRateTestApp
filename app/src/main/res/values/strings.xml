@@ -11,4 +11,7 @@
     <string name="history">Історія</string>
     <string name="first_test">Виконайте своє перше\nвимірювання!</string>
     <string name="clear_history">Очистити історію</string>
+    <string name="finger_is_not_detected">Палець не виявлено</string>
+    <string name="finger_is_not_detected_desc">Щільно прикладіть палець до камери</string>
+    <string name="bpm">bpm</string>
 </resources>

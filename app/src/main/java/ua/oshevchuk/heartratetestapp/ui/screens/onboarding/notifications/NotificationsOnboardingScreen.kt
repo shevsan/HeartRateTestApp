@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,8 +32,13 @@ import ua.oshevchuk.heartratetestapp.R
 import ua.oshevchuk.heartratetestapp.ui.theme.RedFF
 
 @Composable
-fun NotificationsOnboardingScreen(modifier: Modifier = Modifier,onNextClicked: () -> Unit) {
-    NotificationsOnboardingScreenContent(modifier = modifier, onNextClicked = onNextClicked)
+fun NotificationsOnboardingScreen(modifier: Modifier = Modifier, onNextClicked: () -> Unit) {
+    Scaffold {
+        NotificationsOnboardingScreenContent(
+            modifier = modifier.padding(it),
+            onNextClicked = onNextClicked
+        )
+    }
 }
 
 @Composable
