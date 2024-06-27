@@ -4,5 +4,5 @@ enum class CoreFlowRoutes(val route : String) {
     SPLASH("splash"),
     MAIN("main"),
     HISTORY("history"),
-    ONBOARDING("onboarding")
+    MEASUREMENT("measurement")
 }

@@ -12,6 +12,7 @@ import ua.oshevchuk.heartratetestapp.ui.navigation.flowRoutes.CoreFlowRoutes
 import ua.oshevchuk.heartratetestapp.ui.navigation.flowRoutes.OnBoardingFlowRoutes
 import ua.oshevchuk.heartratetestapp.ui.screens.general.GeneralScreen
 import ua.oshevchuk.heartratetestapp.ui.screens.history.HistoryScreen
+import ua.oshevchuk.heartratetestapp.ui.screens.measurement.MeasurementScreen
 import ua.oshevchuk.heartratetestapp.ui.screens.onboarding.advices.AdviceOnboardingScreen
 import ua.oshevchuk.heartratetestapp.ui.screens.onboarding.notifications.NotificationsOnboardingScreen
 import ua.oshevchuk.heartratetestapp.ui.screens.onboarding.tracker.TrackerOnboardingScreen
@@ -27,9 +28,14 @@ fun Navigation() {
             }
         })
 
-        GeneralScreen.get(navGraphBuilder = this, onHistoryClicked = {
-            navController.navigate(HistoryScreen.route)
-        })
+        GeneralScreen.get(navGraphBuilder = this,
+            onHistoryClicked = {
+                navController.navigate(HistoryScreen.route)
+            },
+            onStartMeasure = {
+                navController.navigate(MeasurementScreen.route)
+            }
+        )
 
         TrackerOnboardingScreen.get(navGraphBuilder = this, onNextClicked = {
             navController.navigate(AdviceOnboardingScreen.route) {
@@ -57,6 +63,13 @@ fun Navigation() {
                 navController.navigateUp()
             }
         )
+
+        MeasurementScreen.get(
+            navGraphBuilder = this,
+            onBackClicked = {
+                navController.navigateUp()
+            }
+        )
     }
 
 }
@@ -74,9 +87,17 @@ object SplashScreen : Screen(CoreFlowRoutes.SPLASH.route) {
 }
 
 object GeneralScreen : Screen(CoreFlowRoutes.MAIN.route) {
-    fun get(navGraphBuilder: NavGraphBuilder, onHistoryClicked: () -> Unit) {
+    fun get(
+        navGraphBuilder: NavGraphBuilder,
+        onHistoryClicked: () -> Unit,
+        onStartMeasure: () -> Unit
+    ) {
         navGraphBuilder.composable(GeneralScreen.route) {
-            GeneralScreen(modifier = Modifier.fillMaxSize(), onHistoryClicked = onHistoryClicked)
+            GeneralScreen(
+                modifier = Modifier.fillMaxSize(),
+                onHistoryClicked = onHistoryClicked,
+                onStartMeasure = onStartMeasure
+            )
         }
     }
 }
@@ -85,6 +106,14 @@ object HistoryScreen : Screen(CoreFlowRoutes.HISTORY.route) {
     fun get(navGraphBuilder: NavGraphBuilder, onBackClicked: () -> Unit) {
         navGraphBuilder.composable(HistoryScreen.route) {
             HistoryScreen(modifier = Modifier.fillMaxSize(), onBackClicked = onBackClicked)
+        }
+    }
+}
+
+object MeasurementScreen : Screen(CoreFlowRoutes.MEASUREMENT.route) {
+    fun get(navGraphBuilder: NavGraphBuilder, onBackClicked: () -> Unit) {
+        navGraphBuilder.composable(MeasurementScreen.route) {
+            MeasurementScreen(modifier = Modifier.fillMaxSize(), onBackClicked = onBackClicked)
         }
     }
 }

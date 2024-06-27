@@ -35,12 +35,24 @@ import ua.oshevchuk.heartratetestapp.R
 import ua.oshevchuk.heartratetestapp.ui.theme.RedFF
 
 @Composable
-fun GeneralScreen(modifier: Modifier = Modifier, onHistoryClicked: () -> Unit) {
-    GeneralScreenContent(modifier = modifier, onHistoryClicked = onHistoryClicked)
+fun GeneralScreen(
+    modifier: Modifier = Modifier,
+    onHistoryClicked: () -> Unit,
+    onStartMeasure: () -> Unit
+) {
+    GeneralScreenContent(
+        modifier = modifier,
+        onHistoryClicked = onHistoryClicked,
+        onStartMeasure = onStartMeasure
+    )
 }
 
 @Composable
-fun GeneralScreenContent(modifier: Modifier = Modifier, onHistoryClicked: () -> Unit) {
+fun GeneralScreenContent(
+    modifier: Modifier = Modifier,
+    onHistoryClicked: () -> Unit,
+    onStartMeasure: () -> Unit
+) {
     Box(modifier = modifier) {
         Image(
             modifier = Modifier.fillMaxWidth(),
@@ -104,6 +116,9 @@ fun GeneralScreenContent(modifier: Modifier = Modifier, onHistoryClicked: () -> 
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 10.dp)
+                .clickable {
+                    onStartMeasure()
+                }
         )
     }
 }
@@ -111,5 +126,8 @@ fun GeneralScreenContent(modifier: Modifier = Modifier, onHistoryClicked: () -> 
 @Preview(showBackground = true)
 @Composable
 private fun GeneralScreenContentPreview() {
-    GeneralScreenContent(modifier = Modifier.fillMaxSize(), onHistoryClicked = {})
+    GeneralScreenContent(
+        modifier = Modifier.fillMaxSize(),
+        onHistoryClicked = {},
+        onStartMeasure = {})
 }
