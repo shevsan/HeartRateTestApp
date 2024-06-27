@@ -32,56 +32,56 @@ import ua.oshevchuk.heartratetestapp.R
 
 @Composable
 fun SplashScreen(modifier: Modifier = Modifier, onLoaded: () -> Unit) {
-    Scaffold {
-        SplashScreenContent(
-            modifier = modifier.padding(it),
-            onLoaded = onLoaded
-        )
-    }
+    SplashScreenContent(
+        modifier = modifier,
+        onLoaded = onLoaded
+    )
 }
+
 
 @Composable
 fun SplashScreenContent(modifier: Modifier = Modifier, onLoaded: () -> Unit) {
-    Box(modifier = modifier) {
-        Image(
-            modifier = Modifier.fillMaxWidth(),
-            painter = painterResource(id = R.drawable.ellipse_background),
-            contentDescription = null,
-            contentScale = ContentScale.FillWidth
-        )
-        Column(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
+    Scaffold {
+        Box(modifier = modifier.padding(it)) {
             Image(
-                painter = painterResource(id = R.drawable.ic_heart),
-                contentDescription = null
+                modifier = Modifier.fillMaxWidth(),
+                painter = painterResource(id = R.drawable.ellipse_background),
+                contentDescription = null,
+                contentScale = ContentScale.FillWidth
             )
-            Text(
-                text = stringResource(id = R.string.app_name),
-                color = Color.Black,
-                fontSize = 44.sp,
-                fontWeight = FontWeight.Bold
+            Column(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_heart),
+                    contentDescription = null
+                )
+                Text(
+                    text = stringResource(id = R.string.app_name),
+                    color = Color.Black,
+                    fontSize = 44.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            AnimatedPreloader(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 31.dp, vertical = 10.dp)
+                    .height(15.dp)
+                    .align(Alignment.BottomCenter)
             )
+
+
+            LaunchedEffect(Unit) {
+                //Temp delay for demonstrating loader
+                delay(800L)
+                onLoaded()
+            }
         }
-        AnimatedPreloader(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 31.dp, vertical = 10.dp)
-                .height(15.dp)
-                .align(Alignment.BottomCenter)
-        )
-
-
-        LaunchedEffect(Unit) {
-            //Temp delay for demonstrating loader
-            delay(800L)
-            onLoaded()
-        }
-
     }
 }
 

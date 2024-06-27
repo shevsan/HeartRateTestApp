@@ -33,73 +33,73 @@ import ua.oshevchuk.heartratetestapp.ui.theme.RedFF
 
 @Composable
 fun TrackerOnboardingScreen(modifier: Modifier = Modifier, onNextClicked: () -> Unit) {
-    Scaffold {
-        TrackerOnboardingScreenContent(
-            modifier = modifier.padding(it),
-            onNextClicked = onNextClicked
-        )
-    }
+    TrackerOnboardingScreenContent(
+        modifier = modifier,
+        onNextClicked = onNextClicked
+    )
 }
 
 @Composable
 fun TrackerOnboardingScreenContent(modifier: Modifier = Modifier, onNextClicked: () -> Unit) {
-    Box(modifier = modifier) {
-        Image(
-            modifier = Modifier.fillMaxWidth(),
-            painter = painterResource(id = R.drawable.ellipse_background),
-            contentDescription = null,
-            contentScale = ContentScale.FillWidth
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 31.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+    Scaffold {
+        Box(modifier = modifier.padding(it)) {
             Image(
-                painter = painterResource(id = R.drawable.ic_tracker_onboarding),
-                contentDescription = null
-            )
-            Spacer(modifier = Modifier.height(80.dp))
-            Text(
-                text = stringResource(id = R.string.your_heart_tracker),
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(15.dp))
-            Text(
-                text = stringResource(id = R.string.your_heart_tracker_desc),
-                textAlign = TextAlign.Center
-            )
-        }
-
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_onboarding_progress_first),
+                modifier = Modifier.fillMaxWidth(),
+                painter = painterResource(id = R.drawable.ellipse_background),
                 contentDescription = null,
-
-                )
-            Button(
-                onClick = onNextClicked,
+                contentScale = ContentScale.FillWidth
+            )
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 31.dp, vertical = 23.dp)
-                    .height(44.dp),
-                shape = RoundedCornerShape(25.dp),
-                colors = ButtonDefaults.buttonColors(backgroundColor = RedFF)
+                    .fillMaxSize()
+                    .padding(horizontal = 31.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = stringResource(id = R.string.start),
-                    color = Color.White,
-                    fontSize = 16.sp
+                Image(
+                    painter = painterResource(id = R.drawable.ic_tracker_onboarding),
+                    contentDescription = null
                 )
+                Spacer(modifier = Modifier.height(80.dp))
+                Text(
+                    text = stringResource(id = R.string.your_heart_tracker),
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+                Text(
+                    text = stringResource(id = R.string.your_heart_tracker_desc),
+                    textAlign = TextAlign.Center
+                )
+            }
+
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_onboarding_progress_first),
+                    contentDescription = null,
+
+                    )
+                Button(
+                    onClick = onNextClicked,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 31.dp, vertical = 23.dp)
+                        .height(44.dp),
+                    shape = RoundedCornerShape(25.dp),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = RedFF)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.start),
+                        color = Color.White,
+                        fontSize = 16.sp
+                    )
+                }
             }
         }
     }

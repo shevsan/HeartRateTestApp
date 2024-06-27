@@ -18,10 +18,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ua.oshevchuk.heartratetestapp.ui.entities.HeartRateResultEntity
 import ua.oshevchuk.heartratetestapp.ui.theme.RedFF
 
 @Composable
-fun HistoryItem(modifier: Modifier = Modifier, item: HistoryEntity) {
+fun HistoryItem(modifier: Modifier = Modifier, item: HeartRateResultEntity) {
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(20.dp),
@@ -56,5 +57,5 @@ fun HistoryItem(modifier: Modifier = Modifier, item: HistoryEntity) {
 @Preview(showBackground = true)
 @Composable
 private fun HistoryItemPreview() {
-    HistoryItem(Modifier.fillMaxWidth().height(98.dp).padding(15.dp), item = HistoryEntity(1719434794L, 66))
+    HistoryItem(Modifier.fillMaxWidth().height(98.dp).padding(15.dp), item = HeartRateResultEntity(1719434794L, 66))
 }
