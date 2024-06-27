@@ -37,14 +37,11 @@ fun GeneralScreen(
     onHistoryClicked: () -> Unit,
     onStartMeasure: () -> Unit
 ) {
-    Scaffold {
-        GeneralScreenContent(
-            modifier = modifier.padding(it),
-            onHistoryClicked = onHistoryClicked,
-            onStartMeasure = onStartMeasure
-        )
-    }
-
+    GeneralScreenContent(
+        modifier = modifier,
+        onHistoryClicked = onHistoryClicked,
+        onStartMeasure = onStartMeasure
+    )
 }
 
 @Composable
@@ -53,73 +50,75 @@ fun GeneralScreenContent(
     onHistoryClicked: () -> Unit,
     onStartMeasure: () -> Unit
 ) {
-    Box(modifier = modifier) {
-        Image(
-            modifier = Modifier.fillMaxWidth(),
-            painter = painterResource(id = R.drawable.ellipse_background),
-            contentDescription = null,
-            contentScale = ContentScale.FillWidth
-        )
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(55.dp)
-                    .background(RedFF), contentAlignment = Alignment.CenterEnd
+    Scaffold {
+        Box(modifier = modifier.padding(it)) {
+            Image(
+                modifier = Modifier.fillMaxWidth(),
+                painter = painterResource(id = R.drawable.ellipse_background),
+                contentDescription = null,
+                contentScale = ContentScale.FillWidth
+            )
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
+                Box(
                     modifier = Modifier
-                        .clickable(onClick = onHistoryClicked)
-                        .padding(vertical = 10.dp)
+                        .fillMaxWidth()
+                        .height(55.dp)
+                        .background(RedFF), contentAlignment = Alignment.CenterEnd
                 ) {
-                    Text(
-                        text = stringResource(id = R.string.history),
-                        color = Color.White,
-                        fontSize = 20.sp
-                    )
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_history),
-                        contentDescription = null,
-                        tint = Color.White,
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .size(45.dp)
-                            .padding(8.dp)
-                    )
+                            .clickable(onClick = onHistoryClicked)
+                            .padding(vertical = 10.dp)
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.history),
+                            color = Color.White,
+                            fontSize = 20.sp
+                        )
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_history),
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier
+                                .size(45.dp)
+                                .padding(8.dp)
+                        )
+                    }
                 }
+                Spacer(modifier = Modifier.height(45.dp))
+                Text(
+                    text = stringResource(id = R.string.first_test),
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 28.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 31.dp),
+                    textAlign = TextAlign.Center
+                )
             }
-            Spacer(modifier = Modifier.height(45.dp))
-            Text(
-                text = stringResource(id = R.string.first_test),
-                color = Color.Black,
-                fontWeight = FontWeight.Bold,
-                fontSize = 28.sp,
+            Image(
+                painter = painterResource(id = R.drawable.ic_heart),
+                contentDescription = null,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 31.dp),
-                textAlign = TextAlign.Center
+                    .width(284.dp)
+                    .align(Alignment.Center)
+            )
+            Image(
+                painter = painterResource(id = R.drawable.ic_start_recording),
+                contentDescription = null,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 10.dp)
+                    .clickable {
+                        onStartMeasure()
+                    }
             )
         }
-        Image(
-            painter = painterResource(id = R.drawable.ic_heart),
-            contentDescription = null,
-            modifier = Modifier
-                .width(284.dp)
-                .align(Alignment.Center)
-        )
-        Image(
-            painter = painterResource(id = R.drawable.ic_start_recording),
-            contentDescription = null,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 10.dp)
-                .clickable {
-                    onStartMeasure()
-                }
-        )
     }
 }
 

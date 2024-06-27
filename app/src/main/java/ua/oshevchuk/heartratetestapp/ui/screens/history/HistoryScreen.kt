@@ -16,11 +16,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Scaffold
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-//noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material.FloatingActionButton
-//noinspection UsingMaterialAndMaterial3Libraries
-import androidx.compose.material.Text
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -94,10 +92,10 @@ fun HistoryScreenContent(
         FloatingActionButton(
             onClick = onClearHistoryClicked,
             shape = RoundedCornerShape(25.dp),
-            backgroundColor = RedFF,
+            containerColor = RedFF,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(59.dp)
+                .height(70.dp)
                 .padding(horizontal = 31.dp, vertical = 15.dp)
                 .align(Alignment.BottomCenter)
         ) {

@@ -5,9 +5,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptionsBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import ua.oshevchuk.heartratetestapp.ui.entities.HeartRateResultEntity
 import ua.oshevchuk.heartratetestapp.ui.navigation.flowRoutes.CoreFlowRoutes
 import ua.oshevchuk.heartratetestapp.ui.navigation.flowRoutes.OnBoardingFlowRoutes
 import ua.oshevchuk.heartratetestapp.ui.screens.general.GeneralScreen
@@ -16,6 +19,7 @@ import ua.oshevchuk.heartratetestapp.ui.screens.measurement.MeasurementScreen
 import ua.oshevchuk.heartratetestapp.ui.screens.onboarding.advices.AdviceOnboardingScreen
 import ua.oshevchuk.heartratetestapp.ui.screens.onboarding.notifications.NotificationsOnboardingScreen
 import ua.oshevchuk.heartratetestapp.ui.screens.onboarding.tracker.TrackerOnboardingScreen
+import ua.oshevchuk.heartratetestapp.ui.screens.results.MeasuringResultScreen
 import ua.oshevchuk.heartratetestapp.ui.screens.splash.SplashScreen
 
 @Composable
@@ -67,8 +71,22 @@ fun Navigation() {
             navGraphBuilder = this,
             onBackClicked = {
                 navController.navigateUp()
+            }, onHeartRateCalculated = {
+                val timestamp = it.timestamp
+                val heartRate = it.heartRate
+                navController.navigate("${CoreFlowRoutes.RESULTS.route}/$timestamp/$heartRate")
             }
         )
+        MeasuringResultScreen.get(navGraphBuilder = this, onHistoryClicked = {
+            navController.navigate(HistoryScreen.route) {
+                popUpToInclusive(GeneralScreen.route)
+            }
+        },
+            onDoneClicked = {
+                navController.navigate(GeneralScreen.route) {
+                    popUpToInclusive(GeneralScreen.route)
+                }
+            })
     }
 
 }
@@ -110,9 +128,17 @@ object HistoryScreen : Screen(CoreFlowRoutes.HISTORY.route) {
 }
 
 object MeasurementScreen : Screen(CoreFlowRoutes.MEASUREMENT.route) {
-    fun get(navGraphBuilder: NavGraphBuilder, onBackClicked: () -> Unit) {
+    fun get(
+        navGraphBuilder: NavGraphBuilder,
+        onBackClicked: () -> Unit,
+        onHeartRateCalculated: (HeartRateResultEntity) -> Unit
+    ) {
         navGraphBuilder.composable(MeasurementScreen.route) {
-            MeasurementScreen(modifier = Modifier.fillMaxSize(), onBackClicked = onBackClicked)
+            MeasurementScreen(
+                modifier = Modifier.fillMaxSize(),
+                onBackClicked = onBackClicked,
+                onHeartRateCalculated = onHeartRateCalculated
+            )
         }
     }
 }
@@ -143,6 +169,32 @@ object NotificationsOnboardingScreen : Screen(OnBoardingFlowRoutes.NOTIFICATIONS
             NotificationsOnboardingScreen(
                 modifier = Modifier.fillMaxSize(),
                 onNextClicked = onNextClicked
+            )
+        }
+    }
+}
+
+object MeasuringResultScreen : Screen("${CoreFlowRoutes.RESULTS.route}/{timestamp}/{heartRate}") {
+    fun get(
+        navGraphBuilder: NavGraphBuilder,
+        onDoneClicked: () -> Unit,
+        onHistoryClicked: () -> Unit,
+    ) {
+        navGraphBuilder.composable(
+            route = MeasuringResultScreen.route, arguments = listOf(
+                navArgument("heartRate") { type = NavType.IntType },
+                navArgument("timestamp") { type = NavType.LongType }
+            )) {
+            val heartRate = it.arguments?.getInt("heartRate") ?: 0
+            val timestamp = it.arguments?.getLong("timestamp") ?: 0
+            val measuringResult = HeartRateResultEntity(
+                timestamp, heartRate
+            )
+            MeasuringResultScreen(
+                modifier = Modifier.fillMaxSize(),
+                measuringResults = measuringResult,
+                onDoneClicked = onDoneClicked,
+                onHistoryClicked = onHistoryClicked
             )
         }
     }

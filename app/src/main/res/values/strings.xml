@@ -14,4 +14,12 @@
     <string name="finger_is_not_detected">Палець не виявлено</string>
     <string name="finger_is_not_detected_desc">Щільно прикладіть палець до камери</string>
     <string name="bpm">bpm</string>
+    <string name="measuring_in_process">Йде Вимірювання.</string>
+    <string name="measuring_in_process_desc">Визначаємо ваш пульс. Утримуйте!</string>
+    <string name="results">Результат</string>
+    <string name="your_results">Ваш Результат</string>
+    <string name="normal">Звичайно</string>
+    <string name="slowed">Уповільнений</string>
+    <string name="hurried">Прискорений</string>
+    <string name="done">Готово</string>
 </resources>
