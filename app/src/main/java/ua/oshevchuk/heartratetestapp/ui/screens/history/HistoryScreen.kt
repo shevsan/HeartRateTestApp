@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Scaffold
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 //noinspection UsingMaterialAndMaterial3Libraries
@@ -35,11 +36,13 @@ import ua.oshevchuk.heartratetestapp.ui.theme.RedFF
 
 @Composable
 fun HistoryScreen(modifier: Modifier = Modifier, onBackClicked: () -> Unit) {
-    HistoryScreenContent(
-        modifier = modifier,
-        onBackClicked = onBackClicked,
-        onClearHistoryClicked = {}
-    )
+    Scaffold {
+        HistoryScreenContent(
+            modifier = modifier.padding(it),
+            onBackClicked = onBackClicked,
+            onClearHistoryClicked = {}
+        )
+    }
 }
 
 @Composable

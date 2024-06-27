@@ -27,7 +27,6 @@ fun Navigation() {
                 popUpToInclusive(SplashScreen.route)
             }
         })
-
         GeneralScreen.get(navGraphBuilder = this,
             onHistoryClicked = {
                 navController.navigate(HistoryScreen.route)

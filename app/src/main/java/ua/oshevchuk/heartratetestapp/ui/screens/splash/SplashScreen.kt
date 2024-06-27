@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,10 +32,12 @@ import ua.oshevchuk.heartratetestapp.R
 
 @Composable
 fun SplashScreen(modifier: Modifier = Modifier, onLoaded: () -> Unit) {
-    SplashScreenContent(
-        modifier = modifier,
-        onLoaded = onLoaded
-    )
+    Scaffold {
+        SplashScreenContent(
+            modifier = modifier.padding(it),
+            onLoaded = onLoaded
+        )
+    }
 }
 
 @Composable
@@ -67,7 +70,7 @@ fun SplashScreenContent(modifier: Modifier = Modifier, onLoaded: () -> Unit) {
         AnimatedPreloader(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 31.dp, vertical = 55.dp)
+                .padding(horizontal = 31.dp, vertical = 10.dp)
                 .height(15.dp)
                 .align(Alignment.BottomCenter)
         )
@@ -75,7 +78,7 @@ fun SplashScreenContent(modifier: Modifier = Modifier, onLoaded: () -> Unit) {
 
         LaunchedEffect(Unit) {
             //Temp delay for demonstrating loader
-            delay(1000L)
+            delay(800L)
             onLoaded()
         }
 

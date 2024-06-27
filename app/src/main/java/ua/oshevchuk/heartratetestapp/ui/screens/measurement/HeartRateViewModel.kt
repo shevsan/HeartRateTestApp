@@ -21,18 +21,20 @@ class HeartRateViewModel @Inject constructor(): ViewModel() {
     private var beats = 0.0
     private var startTime: Long = 0
 
-    private val _shouldProcess: MutableStateFlow<Boolean> = MutableStateFlow(true)
-    val shouldProcess = _shouldProcess.asStateFlow()
+    private val _isFingerCorrectlyPlacedState: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isFingerCorrectlyPlacedState = _isFingerCorrectlyPlacedState.asStateFlow()
 
     private val _beatsPerMin: MutableStateFlow<Int> = MutableStateFlow(0)
     val beatsPerMin = _beatsPerMin.asStateFlow()
 
     fun processImageData(width: Int, height: Int, byteBuffer: ByteBuffer?) {
         val imgAvg = imageProcessing.decodeYUV420SPtoRedAvg(width, height, byteBuffer)
-        if (imgAvg > 90) {
-            _shouldProcess.value = false
+        if (imgAvg > 80) {
+            _isFingerCorrectlyPlacedState.value = false
             _beatsPerMin.value = 0
             return
+        }else{
+            _isFingerCorrectlyPlacedState.value = true
         }
 
         var averageArrayAvg = 0
@@ -55,6 +57,7 @@ class HeartRateViewModel @Inject constructor(): ViewModel() {
             newType = Type.GREEN
         }
 
+
         if (averageIndex == averageArraySize) averageIndex = 0
         averageArray[averageIndex] = imgAvg
         averageIndex++
@@ -72,7 +75,7 @@ class HeartRateViewModel @Inject constructor(): ViewModel() {
             if (dpm < 30 || dpm > 180) {
                 startTime = System.currentTimeMillis()
                 beats = 0.0
-                _shouldProcess.value = false
+                _isFingerCorrectlyPlacedState.value = false
                 return
             }
 
@@ -92,6 +95,5 @@ class HeartRateViewModel @Inject constructor(): ViewModel() {
             startTime = System.currentTimeMillis()
             beats = 0.0
         }
-        _shouldProcess.value = false
     }
 }
