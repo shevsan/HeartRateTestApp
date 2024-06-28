@@ -63,7 +63,9 @@ fun Navigation() {
         HistoryScreen.get(
             navGraphBuilder = this,
             onBackClicked = {
-                navController.navigateUp()
+                navController.navigate(GeneralScreen.route){
+                    popUpToInclusive(GeneralScreen.route)
+                }
             }
         )
 
