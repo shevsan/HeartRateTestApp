@@ -25,4 +25,5 @@
     <string name="smth_went_wrong">Щось пішло не так</string>
     <string name="all_deleted">Вся історія була видалена</string>
     <string name="it_is_empty">Поки тут пусто =(</string>
+    <string name="camera_error">Перейдіть до налаштувань і змініть дозвіл камери на для використання додатка</string>
 </resources>
