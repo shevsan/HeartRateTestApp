@@ -7,6 +7,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
 import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
@@ -119,6 +120,7 @@ fun MeasurementScreen(
             ContextCompat.getMainExecutor(context),
             HeartRateAnalyzer(heartRateViewModel)
         )
+        imageCaptureFlashMode = ImageCapture.FLASH_MODE_ON
         enableTorch(true)
     }
     MeasurementScreenContent(
