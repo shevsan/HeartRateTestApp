@@ -57,6 +57,7 @@ android {
 }
 
 dependencies {
+    //compose
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -65,16 +66,14 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.hilt.android)
-    implementation(libs.androidx.navigation.runtime.ktx)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.hilt.navigation.compose)
-    kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.material)
     implementation(libs.lottie.compose)
+
     //Permissions
     implementation(libs.accompanist.permissions)
+
+
     //cameraX
     implementation("androidx.camera:camera-core:1.1.0-beta01")
     implementation("androidx.camera:camera-camera2:1.1.0-beta01")
@@ -84,21 +83,34 @@ dependencies {
     //Datastore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
+    //navigation
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
+
+    //hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
 
     implementation("androidx.compose.ui:ui:1.0.0")
     implementation("androidx.compose.material:material:1.0.0")
     implementation("androidx.compose.ui:ui-tooling:1.0.0")
 
+
+    //lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
 
+
+    //room
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
 
 
 
-
+    //test dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

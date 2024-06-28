@@ -4,7 +4,6 @@ import java.nio.ByteBuffer
 class ImageProcessing {
     private fun decodeYUV420SPtoRedSum(width: Int, height: Int,  byteBuffer: ByteBuffer): Int {
         val frameSize = width * height
-
         var sum = 0
             var j = 0
             var yp = 0
