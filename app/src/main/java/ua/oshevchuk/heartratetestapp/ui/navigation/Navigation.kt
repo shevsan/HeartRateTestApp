@@ -1,5 +1,13 @@
 package ua.oshevchuk.heartratetestapp.ui.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -70,7 +78,7 @@ fun Navigation() {
         HistoryScreen.get(
             navGraphBuilder = this,
             onBackClicked = {
-                navController.navigate("${CoreFlowRoutes.MAIN.route}/true"){
+                navController.navigate("${CoreFlowRoutes.MAIN.route}/true") {
                     popUpToInclusive("${CoreFlowRoutes.MAIN.route}/true")
                 }
             }
@@ -125,7 +133,20 @@ object GeneralScreen : Screen("${CoreFlowRoutes.MAIN.route}/{isOpenedBefore}") {
     ) {
         navGraphBuilder.composable(GeneralScreen.route, arguments = listOf(
             navArgument("isOpenedBefore") { type = NavType.BoolType }
-        )) {
+        ), enterTransition = {
+            scaleIn(
+                animationSpec = tween(220, delayMillis = 90),
+                initialScale = 0.9f
+            ) + fadeIn(animationSpec = tween(220, delayMillis = 90))
+        },
+            exitTransition = {
+                scaleOut(
+                    animationSpec = tween(
+                        durationMillis = 220,
+                        delayMillis = 90
+                    ), targetScale = 0.9f
+                ) + fadeOut(tween(delayMillis = 90))
+            }) {
             val isOpenedBefore = it.arguments?.getBoolean("isOpenedBefore") ?: false
             GeneralScreen(
                 modifier = Modifier.fillMaxSize(),
@@ -175,7 +196,16 @@ object TrackerOnboardingScreen : Screen(OnBoardingFlowRoutes.TRACKER_ONBOARDING.
 
 object AdviceOnboardingScreen : Screen(OnBoardingFlowRoutes.ADVICE_ONBOARDING.route) {
     fun get(navGraphBuilder: NavGraphBuilder, onNextClicked: () -> Unit) {
-        navGraphBuilder.composable(AdviceOnboardingScreen.route) {
+        navGraphBuilder.composable(AdviceOnboardingScreen.route, enterTransition = {
+            fadeIn(
+                animationSpec = tween(
+                    300, easing = LinearEasing
+                )
+            ) + slideIntoContainer(
+                animationSpec = tween(300, easing = EaseIn),
+                towards = AnimatedContentTransitionScope.SlideDirection.Start
+            )
+        }) {
             AdviceOnboardingScreen(modifier = Modifier.fillMaxSize(), onNextClicked = onNextClicked)
         }
     }
@@ -183,7 +213,16 @@ object AdviceOnboardingScreen : Screen(OnBoardingFlowRoutes.ADVICE_ONBOARDING.ro
 
 object NotificationsOnboardingScreen : Screen(OnBoardingFlowRoutes.NOTIFICATIONS_ONBOARDING.route) {
     fun get(navGraphBuilder: NavGraphBuilder, onNextClicked: () -> Unit) {
-        navGraphBuilder.composable(NotificationsOnboardingScreen.route) {
+        navGraphBuilder.composable(NotificationsOnboardingScreen.route, enterTransition = {
+            fadeIn(
+                animationSpec = tween(
+                    300, easing = LinearEasing
+                )
+            ) + slideIntoContainer(
+                animationSpec = tween(300, easing = EaseIn),
+                towards = AnimatedContentTransitionScope.SlideDirection.Start
+            )
+        }) {
             NotificationsOnboardingScreen(
                 modifier = Modifier.fillMaxSize(),
                 onNextClicked = onNextClicked
