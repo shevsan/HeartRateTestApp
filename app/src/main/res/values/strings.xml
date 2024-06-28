@@ -22,4 +22,6 @@
     <string name="slowed">Уповільнений</string>
     <string name="hurried">Прискорений</string>
     <string name="done">Готово</string>
+    <string name="smth_went_wrong">Щось пішло не так</string>
+    <string name="all_deleted">Вся історія була видалена</string>
 </resources>

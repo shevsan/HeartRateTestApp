@@ -119,6 +119,7 @@ fun MeasurementScreen(
             ContextCompat.getMainExecutor(context),
             HeartRateAnalyzer(heartRateViewModel)
         )
+        enableTorch(true)
     }
     MeasurementScreenContent(
         modifier = modifier,
@@ -141,7 +142,6 @@ fun MeasurementScreenContent(
     progressState: MutableState<Float>
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
-    cameraController.enableTorch(true)
     Scaffold {
         Box(modifier = modifier.padding(it)) {
             Image(

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import ua.oshevchuk.heartratetestapp.ui.constants.ResultTypes
 import java.text.SimpleDateFormat
 import java.util.Date
-
 data class HeartRateResultEntity(
     val timestamp: Long,
     val heartRate: Int
@@ -28,7 +27,7 @@ data class HeartRateResultEntity(
     fun getResultTypeFromHeartRate() =
         if (heartRate < 60) {
             ResultTypes.SLOWED
-        } else if (heartRate in 61..99) {
+        } else if (heartRate in 60..100) {
             ResultTypes.NORMAL
         } else {
             ResultTypes.HURRIED

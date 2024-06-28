@@ -1,7 +1,7 @@
 package ua.oshevchuk.heartratetestapp.ui.screens.history
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,24 +28,27 @@ fun HistoryItem(modifier: Modifier = Modifier, item: HeartRateResultEntity) {
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(15.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Text(
                 text = item.getPrettyHeartRate(),
-                modifier = Modifier.align(Alignment.CenterStart),
-                fontSize = 36.sp,
+                fontSize = 30.sp,
                 color = Color.Black
             )
             Card(
                 modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(8.dp)
-                    .width(2.dp).align(Alignment.Center),
+                    .height(50.dp)
+                    .width(2.dp),
                 colors = CardDefaults.cardColors(containerColor = RedFF),
                 shape = RoundedCornerShape(5.dp)
-            ){}
+            ) {}
             Text(
                 text = "${item.getTime()}\n${item.getDate()}",
-                modifier = Modifier.align(Alignment.CenterEnd),
                 fontSize = 24.sp,
                 color = Color.Black
             )
@@ -57,5 +60,10 @@ fun HistoryItem(modifier: Modifier = Modifier, item: HeartRateResultEntity) {
 @Preview(showBackground = true)
 @Composable
 private fun HistoryItemPreview() {
-    HistoryItem(Modifier.fillMaxWidth().height(98.dp).padding(15.dp), item = HeartRateResultEntity(1719434794L, 66))
+    HistoryItem(
+        Modifier
+            .fillMaxWidth()
+            .padding(15.dp),
+        item = HeartRateResultEntity(1719434794L, 66)
+    )
 }

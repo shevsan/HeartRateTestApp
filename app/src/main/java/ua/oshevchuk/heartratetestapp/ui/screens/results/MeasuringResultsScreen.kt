@@ -1,5 +1,6 @@
 package ua.oshevchuk.heartratetestapp.ui.screens.results
 
+import android.widget.Toast
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
@@ -30,25 +31,30 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.delay
 import ua.oshevchuk.heartratetestapp.R
+import ua.oshevchuk.heartratetestapp.common.Response
 import ua.oshevchuk.heartratetestapp.ui.constants.ResultTypes
 import ua.oshevchuk.heartratetestapp.ui.entities.HeartRateResultEntity
 import ua.oshevchuk.heartratetestapp.ui.theme.Blue21
@@ -65,8 +71,28 @@ fun MeasuringResultScreen(
     modifier: Modifier = Modifier,
     measuringResults: HeartRateResultEntity,
     onDoneClicked: () -> Unit,
-    onHistoryClicked: () -> Unit
+    onHistoryClicked: () -> Unit,
+    viewModel: MeasuringResultsViewModel = hiltViewModel()
 ) {
+    when (viewModel.insertResultState.collectAsState().value) {
+        is Response.Error -> {
+            val context = LocalContext.current
+            val errorText =  stringResource(id = R.string.smth_went_wrong)
+            LaunchedEffect(Unit) {
+                Toast.makeText(
+                    context,
+                    errorText,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+        }
+        is Response.Loading -> {}
+        else -> {}
+    }
+    LaunchedEffect(measuringResults) {
+        viewModel.insertResult(measuringResults)
+    }
     MeasuringResultScreenContent(
         modifier = modifier,
         measuringResults = measuringResults,
@@ -133,11 +159,13 @@ fun MeasuringResultScreenContent(
                     }
                 }
             }
+            val layoutDirection = LocalLayoutDirection.current
             ResultsItem(
                 modifier = Modifier
                     .align(Alignment.Center)
                     .padding(horizontal = 15.dp),
-                entity = measuringResults
+                entity = measuringResults,
+                paddingValues = it.calculateRightPadding(layoutDirection) + it.calculateLeftPadding(layoutDirection)
             )
             FloatingActionButton(
                 onClick = onDoneClicked,
@@ -160,7 +188,7 @@ fun MeasuringResultScreenContent(
 }
 
 @Composable
-fun ResultsItem(modifier: Modifier = Modifier, entity: HeartRateResultEntity) {
+fun ResultsItem(modifier: Modifier = Modifier, entity: HeartRateResultEntity, paddingValues: Dp) {
     val resultType = entity.getResultTypeFromHeartRate()
     Card(
         modifier = modifier,
@@ -207,7 +235,7 @@ fun ResultsItem(modifier: Modifier = Modifier, entity: HeartRateResultEntity) {
                     )
                 }
             }
-            HeartRateProgressBar(entity.heartRate)
+            HeartRateProgressBar(entity.heartRate, paddingValues)
             Spacer(modifier = Modifier.height(30.dp))
             HeartRateSegment(
                 modifier = Modifier.fillMaxWidth(),
@@ -272,15 +300,15 @@ fun HeartRateSegment(
 
 
 @Composable
-fun HeartRateProgressBar(heartRate: Int) {
+fun HeartRateProgressBar(heartRate: Int, paddingValues: Dp) {
     val slices = listOf(
         Slice(value = 33.3f, color = Blue21),
         Slice(value = 33.3f, color = Green1C),
         Slice(value = 33.3f, color = Red4C)
     )
-    var pointerOffset by remember { mutableStateOf(0f) }
+    var pointerOffset by remember { mutableFloatStateOf(0f) }
     val totalHeartRateRange = 180f
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp - 35.dp
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp - 35.dp - paddingValues
     val animatedOffset = animateFloatAsState(
         targetValue = pointerOffset,
         animationSpec = tween(durationMillis = 1000),
@@ -289,7 +317,7 @@ fun HeartRateProgressBar(heartRate: Int) {
     val heartRateOffset = remember(heartRate) {
         (heartRate / totalHeartRateRange) * screenWidth.value
     }
-    var state by remember { mutableStateOf(.0f) }
+    var state by remember { mutableFloatStateOf(.0f) }
 
     LaunchedEffect(key1 = Unit, block = {
         delay(1000L)

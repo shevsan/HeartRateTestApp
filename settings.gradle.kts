@@ -21,5 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "HeartRateTestApp"
 include(":app")
-include(":domain")
-include(":data")
