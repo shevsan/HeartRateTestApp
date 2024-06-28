@@ -244,7 +244,7 @@ fun MeasurementScreenContent(
                     LinearDeterminateIndicator(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 31.dp, vertical = 70.dp)
+                            .padding(horizontal = 31.dp, vertical = 100.dp)
                             .height(5.dp),
                         isLoading = isFingerCorrectlyPlaced,
                         currentProgress = progressState

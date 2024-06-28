@@ -12,6 +12,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,24 +24,38 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import kotlinx.coroutines.delay
 import ua.oshevchuk.heartratetestapp.R
 
 @Composable
-fun SplashScreen(modifier: Modifier = Modifier, onLoaded: () -> Unit) {
+fun SplashScreen(
+    modifier: Modifier = Modifier,
+    onRedirectToOnboardingScreens: () -> Unit,
+    onRedirectToGeneralScreen: () -> Unit,
+    viewModel: SplashViewModel = hiltViewModel()
+) {
+    val isOpenedBeforeState = viewModel.isOpenedBeforeState.collectAsState()
+    isOpenedBeforeState.value?.let {
+        LaunchedEffect(Unit) {
+            if (it) {
+                onRedirectToGeneralScreen()
+            } else {
+                onRedirectToOnboardingScreens()
+            }
+        }
+    }
     SplashScreenContent(
-        modifier = modifier,
-        onLoaded = onLoaded
+        modifier = modifier
     )
 }
 
 
 @Composable
-fun SplashScreenContent(modifier: Modifier = Modifier, onLoaded: () -> Unit) {
+fun SplashScreenContent(modifier: Modifier = Modifier) {
     Scaffold {
         Box(modifier = modifier.padding(it)) {
             Image(
@@ -74,13 +89,6 @@ fun SplashScreenContent(modifier: Modifier = Modifier, onLoaded: () -> Unit) {
                     .height(15.dp)
                     .align(Alignment.BottomCenter)
             )
-
-
-            LaunchedEffect(Unit) {
-                //Temp delay for demonstrating loader
-                delay(800L)
-                onLoaded()
-            }
         }
     }
 }
@@ -110,7 +118,8 @@ fun AnimatedPreloader(modifier: Modifier = Modifier) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun SplashScreenContentPreview() {
-    SplashScreenContent(modifier = Modifier
-        .fillMaxSize(),
-        onLoaded = {})
+    SplashScreenContent(
+        modifier = Modifier
+            .fillMaxSize()
+    )
 }
