@@ -75,10 +75,10 @@ dependencies {
 
 
     //cameraX
-    implementation("androidx.camera:camera-core:1.1.0-beta01")
-    implementation("androidx.camera:camera-camera2:1.1.0-beta01")
-    implementation("androidx.camera:camera-lifecycle:1.1.0-beta01")
-    implementation("androidx.camera:camera-view:1.0.0-alpha27")
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
 
     //Datastore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
