@@ -6,7 +6,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,6 +54,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.delay
 import ua.oshevchuk.heartratetestapp.R
 import ua.oshevchuk.heartratetestapp.common.Response
+import ua.oshevchuk.heartratetestapp.common.noRippleClickable
 import ua.oshevchuk.heartratetestapp.ui.constants.ResultTypes
 import ua.oshevchuk.heartratetestapp.ui.entities.HeartRateResultEntity
 import ua.oshevchuk.heartratetestapp.ui.theme.Blue21
@@ -141,7 +141,7 @@ fun MeasuringResultScreenContent(
                         )
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.clickable(onClick = onHistoryClicked)
+                            modifier = Modifier.noRippleClickable(onClick = onHistoryClicked)
                         ) {
                             Text(
                                 text = stringResource(id = R.string.history),

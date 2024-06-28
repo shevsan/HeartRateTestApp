@@ -2,7 +2,6 @@ package ua.oshevchuk.heartratetestapp.ui.screens.general
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,18 +28,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ua.oshevchuk.heartratetestapp.R
+import ua.oshevchuk.heartratetestapp.common.noRippleClickable
 import ua.oshevchuk.heartratetestapp.ui.theme.RedFF
 
 @Composable
 fun GeneralScreen(
     modifier: Modifier = Modifier,
     onHistoryClicked: () -> Unit,
-    onStartMeasure: () -> Unit
+    onStartMeasure: () -> Unit,
+    isOpenedBefore: Boolean
 ) {
     GeneralScreenContent(
         modifier = modifier,
         onHistoryClicked = onHistoryClicked,
-        onStartMeasure = onStartMeasure
+        onStartMeasure = onStartMeasure,
+        isOpenedBefore = isOpenedBefore
     )
 }
 
@@ -48,7 +50,8 @@ fun GeneralScreen(
 fun GeneralScreenContent(
     modifier: Modifier = Modifier,
     onHistoryClicked: () -> Unit,
-    onStartMeasure: () -> Unit
+    onStartMeasure: () -> Unit,
+    isOpenedBefore: Boolean
 ) {
     Scaffold {
         Box(modifier = modifier.padding(it)) {
@@ -71,7 +74,7 @@ fun GeneralScreenContent(
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .clickable(onClick = onHistoryClicked)
+                            .noRippleClickable(onClick = onHistoryClicked)
                             .padding(vertical = 10.dp)
                     ) {
                         Text(
@@ -90,16 +93,17 @@ fun GeneralScreenContent(
                     }
                 }
                 Spacer(modifier = Modifier.height(45.dp))
-                Text(
-                    text = stringResource(id = R.string.first_test),
-                    color = Color.Black,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 28.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 31.dp),
-                    textAlign = TextAlign.Center
-                )
+                if (!isOpenedBefore)
+                    Text(
+                        text = stringResource(id = R.string.first_test),
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 28.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 31.dp),
+                        textAlign = TextAlign.Center
+                    )
             }
             Image(
                 painter = painterResource(id = R.drawable.ic_heart),
@@ -114,7 +118,7 @@ fun GeneralScreenContent(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 10.dp)
-                    .clickable {
+                    .noRippleClickable {
                         onStartMeasure()
                     }
             )
@@ -128,5 +132,6 @@ private fun GeneralScreenContentPreview() {
     GeneralScreenContent(
         modifier = Modifier.fillMaxSize(),
         onHistoryClicked = {},
-        onStartMeasure = {})
+        onStartMeasure = {},
+        isOpenedBefore = false)
 }

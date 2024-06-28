@@ -26,11 +26,18 @@ import ua.oshevchuk.heartratetestapp.ui.screens.splash.SplashScreen
 fun Navigation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = SplashScreen.route) {
-        SplashScreen.get(navGraphBuilder = this, onLoaded = {
+
+        SplashScreen.get(navGraphBuilder = this, onRedirectToOnboardingScreens = {
             navController.navigate(TrackerOnboardingScreen.route) {
                 popUpToInclusive(SplashScreen.route)
             }
-        })
+        },
+            onRedirectToGeneralScreen = {
+                navController.navigate("${CoreFlowRoutes.MAIN.route}/true") {
+                    popUpToInclusive("${CoreFlowRoutes.MAIN.route}/true")
+                }
+            })
+
         GeneralScreen.get(navGraphBuilder = this,
             onHistoryClicked = {
                 navController.navigate(HistoryScreen.route)
@@ -54,7 +61,7 @@ fun Navigation() {
         NotificationsOnboardingScreen.get(
             navGraphBuilder = this,
             onNextClicked = {
-                navController.navigate(GeneralScreen.route) {
+                navController.navigate("${CoreFlowRoutes.MAIN.route}/false") {
                     popUpToInclusive(NotificationsOnboardingScreen.route)
                 }
             }
@@ -63,8 +70,8 @@ fun Navigation() {
         HistoryScreen.get(
             navGraphBuilder = this,
             onBackClicked = {
-                navController.navigate(GeneralScreen.route){
-                    popUpToInclusive(GeneralScreen.route)
+                navController.navigate("${CoreFlowRoutes.MAIN.route}/true"){
+                    popUpToInclusive("${CoreFlowRoutes.MAIN.route}/true")
                 }
             }
         )
@@ -81,12 +88,12 @@ fun Navigation() {
         )
         MeasuringResultScreen.get(navGraphBuilder = this, onHistoryClicked = {
             navController.navigate(HistoryScreen.route) {
-                popUpToInclusive(GeneralScreen.route)
+                popUpToInclusive("${CoreFlowRoutes.MAIN.route}/true")
             }
         },
             onDoneClicked = {
-                navController.navigate(GeneralScreen.route) {
-                    popUpToInclusive(GeneralScreen.route)
+                navController.navigate("${CoreFlowRoutes.MAIN.route}/true") {
+                    popUpToInclusive("${CoreFlowRoutes.MAIN.route}/true")
                 }
             })
     }
@@ -94,28 +101,37 @@ fun Navigation() {
 }
 
 object SplashScreen : Screen(CoreFlowRoutes.SPLASH.route) {
-    fun get(navGraphBuilder: NavGraphBuilder, onLoaded: () -> Unit) {
+    fun get(
+        navGraphBuilder: NavGraphBuilder,
+        onRedirectToGeneralScreen: () -> Unit,
+        onRedirectToOnboardingScreens: () -> Unit
+    ) {
         navGraphBuilder.composable(SplashScreen.route) {
             SplashScreen(
                 modifier = Modifier
                     .fillMaxSize(),
-                onLoaded = onLoaded
+                onRedirectToGeneralScreen = onRedirectToGeneralScreen,
+                onRedirectToOnboardingScreens = onRedirectToOnboardingScreens
             )
         }
     }
 }
 
-object GeneralScreen : Screen(CoreFlowRoutes.MAIN.route) {
+object GeneralScreen : Screen("${CoreFlowRoutes.MAIN.route}/{isOpenedBefore}") {
     fun get(
         navGraphBuilder: NavGraphBuilder,
         onHistoryClicked: () -> Unit,
         onStartMeasure: () -> Unit
     ) {
-        navGraphBuilder.composable(GeneralScreen.route) {
+        navGraphBuilder.composable(GeneralScreen.route, arguments = listOf(
+            navArgument("isOpenedBefore") { type = NavType.BoolType }
+        )) {
+            val isOpenedBefore = it.arguments?.getBoolean("isOpenedBefore") ?: false
             GeneralScreen(
                 modifier = Modifier.fillMaxSize(),
                 onHistoryClicked = onHistoryClicked,
-                onStartMeasure = onStartMeasure
+                onStartMeasure = onStartMeasure,
+                isOpenedBefore = isOpenedBefore
             )
         }
     }

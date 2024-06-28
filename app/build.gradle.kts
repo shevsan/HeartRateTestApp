@@ -81,6 +81,10 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.1.0-beta01")
     implementation("androidx.camera:camera-view:1.0.0-alpha27")
 
+    //Datastore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+
     implementation("androidx.compose.ui:ui:1.0.0")
     implementation("androidx.compose.material:material:1.0.0")
     implementation("androidx.compose.ui:ui-tooling:1.0.0")

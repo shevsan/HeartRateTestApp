@@ -3,7 +3,6 @@ package ua.oshevchuk.heartratetestapp.ui.screens.history
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,12 +32,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ua.oshevchuk.heartratetestapp.R
 import ua.oshevchuk.heartratetestapp.common.Response
+import ua.oshevchuk.heartratetestapp.common.noRippleClickable
 import ua.oshevchuk.heartratetestapp.ui.components.DotLoader
 import ua.oshevchuk.heartratetestapp.ui.entities.HeartRateResultEntity
 import ua.oshevchuk.heartratetestapp.ui.theme.RedFF
@@ -87,13 +88,14 @@ fun HistoryScreenContent(
         }
 
         is Response.Error -> {
-            LaunchedEffect(Unit) {
-                Toast.makeText(
-                    context,
-                    errorText,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            if (results.value == null && results.value?.size != 0)
+                LaunchedEffect(Unit) {
+                    Toast.makeText(
+                        context,
+                        errorText,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
         }
 
         else -> {}
@@ -101,16 +103,11 @@ fun HistoryScreenContent(
 
     if (clearAllState is Response.Success) {
         LaunchedEffect(Unit) {
-            Toast.makeText(
-                context,
-                errorText,
-                Toast.LENGTH_SHORT
-            ).show()
             onBackClicked()
         }
     }
 
-    if (clearAllState is Response.Error) {
+    if (clearAllState is Response.Error && getAllHeartResultsState is Response.Success) {
         LaunchedEffect(Unit) {
             Toast.makeText(
                 context,
@@ -138,7 +135,9 @@ fun HistoryScreenContent(
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .clickable(onClick = onBackClicked)
+                            .noRippleClickable {
+                                onBackClicked()
+                            }
                             .padding(vertical = 10.dp)
                     ) {
                         Icon(
@@ -173,24 +172,35 @@ fun HistoryScreenContent(
                 }
 
             }
-            FloatingActionButton(
-                onClick = onClearHistoryClicked,
-                shape = RoundedCornerShape(25.dp),
-                containerColor = RedFF,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp)
-                    .padding(horizontal = 31.dp, vertical = 15.dp)
-                    .align(Alignment.BottomCenter)
-            ) {
-                if (clearAllState is Response.Loading)
-                    DotLoader(modifier = Modifier.height(15.dp))
-                else
+            if (results.value != null && results.value?.size != 0) {
+                FloatingActionButton(
+                    onClick = onClearHistoryClicked,
+                    shape = RoundedCornerShape(25.dp),
+                    containerColor = RedFF,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(70.dp)
+                        .padding(horizontal = 31.dp, vertical = 15.dp)
+                        .align(Alignment.BottomCenter)
+                ) {
+                    if (clearAllState is Response.Loading)
+                        DotLoader(modifier = Modifier.height(15.dp))
+                    else
+                        Text(
+                            text = stringResource(id = R.string.clear_history),
+                            color = Color.White,
+                            fontSize = 19.sp
+                        )
+                }
+            } else {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(
-                        text = stringResource(id = R.string.clear_history),
+                        text = stringResource(id = R.string.it_is_empty),
                         color = Color.White,
-                        fontSize = 19.sp
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold
                     )
+                }
             }
         }
     }
