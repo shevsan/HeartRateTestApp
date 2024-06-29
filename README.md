@@ -2,7 +2,10 @@
 It is test task for Boosteight. Android app that measuring heart rate with camera. 
 Stack: Kotlin, Compose, Coroutines, MVVM, Clean Arch, Dependecy Injection (Hilt), Room, Datastore Shared Preferences, CameraX, Lottie.
 
+# How to run an app? 
+So, that is Heart Rate app, that based on camera with analyzing preview. Firslty, you have to give a permission for camera, then go to measurement screen with the button at the bottom of screen. Secondly, put a finger on the your phone's camera, hold it for two measurement to get more accurate result. And here is your heart rate =)
 
+Caution! The results of measuring can be different depends on device and lightning. Do not use them as your accurate heart rate.
 
 # Package Structure
 
