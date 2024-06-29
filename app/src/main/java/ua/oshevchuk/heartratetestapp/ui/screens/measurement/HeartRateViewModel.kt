@@ -36,6 +36,11 @@ class HeartRateViewModel @Inject constructor() : ViewModel() {
 
     fun processImageData(width: Int, height: Int, byteBuffer: ByteBuffer?) {
         val imgAvg = imageProcessing.decodeYUV420SPtoRedAvg(width, height, byteBuffer)
+        var averageArrayAvg = 0
+        var averageArrayCnt = 0
+        var beatsArrayAvg = 0
+        var beatsArrayCnt = 0
+
         if (imgAvg > 80) {
             _isFingerCorrectlyPlacedState.value = false
             _beatsPerMin.value = 0
@@ -45,8 +50,7 @@ class HeartRateViewModel @Inject constructor() : ViewModel() {
             _isFingerCorrectlyPlacedState.value = true
         }
 
-        var averageArrayAvg = 0
-        var averageArrayCnt = 0
+
         for (i in averageArray.indices) {
             if (averageArray[i] > 0) {
                 averageArrayAvg += averageArray[i]
@@ -95,8 +99,7 @@ class HeartRateViewModel @Inject constructor() : ViewModel() {
             if (beatsIndex == beatsArraySize) beatsIndex = 0
             beatsArray[beatsIndex] = dpm
             beatsIndex++
-            var beatsArrayAvg = 0
-            var beatsArrayCnt = 0
+
             for (i in beatsArray.indices) {
                 if (beatsArray[i] > 0) {
                     beatsArrayAvg += beatsArray[i]
