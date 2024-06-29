@@ -17,13 +17,3 @@ fun Modifier.noRippleClickable(enabled: Boolean = true, onClick: () -> Unit): Mo
         onClick = onClick
     )
 }
-
-@SuppressLint("ModifierFactoryUnreferencedReceiver")
-fun Modifier.rippleClickable(enabled: Boolean = true, onClick: () -> Unit): Modifier = composed {
-    clickable(
-        enabled = enabled,
-        interactionSource = remember { MutableInteractionSource() },
-        indication = rememberRipple(),
-        onClick = onClick
-    )
-}
