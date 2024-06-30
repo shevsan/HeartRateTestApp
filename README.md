@@ -1,5 +1,5 @@
 # App Description
-It is test task for Boosteight. Android app that measuring heart rate with camera. 
+Test task for Boosteight. Android app that measuring heart rate with camera. 
 Stack: Kotlin, Compose, Coroutines, MVVM, Clean Arch, Single Activity, Dependecy Injection (Hilt), Room, Datastore Shared Preferences, CameraX, Lottie.
 
 # How to run an app? 
